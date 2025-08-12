@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Camera } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navItems = ["About", "Writing", "Acting", "Gallery", "Contact"];
 

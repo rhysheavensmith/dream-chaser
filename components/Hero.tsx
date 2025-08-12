@@ -2,19 +2,47 @@
 
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function Hero() {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleCanPlay = () => {
+      setIsVideoLoaded(true);
+    };
+
+    if (video.readyState >= 3) {
+      setIsVideoLoaded(true);
+    } else {
+      video.addEventListener("canplaythrough", handleCanPlay);
+    }
+
+    return () => {
+      video.removeEventListener("canplaythrough", handleCanPlay);
+    };
+  }, []);
+
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="/hero-video.mp4" type="video/mp4" />
-      </video>
+    <>
+      {!isVideoLoaded && <LoadingSpinner />}
+      
+      <section className="relative h-screen w-full overflow-hidden">
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/hero-video.webm" type="video/webm" />
+        </video>
 
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/80" />
 
@@ -96,5 +124,6 @@ export default function Hero() {
         <div className="absolute bottom-1 right-1 w-24 h-24 border-b-2 border-r-2 border-accent/60" />
       </div>
     </section>
+    </>
   );
 }
