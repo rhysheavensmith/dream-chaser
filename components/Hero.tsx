@@ -2,52 +2,23 @@
 
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import Image from "next/image";
 
 export default function Hero() {
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const handleCanPlay = () => {
-      setIsVideoLoaded(true);
-    };
-
-    if (video.readyState >= 3) {
-      setIsVideoLoaded(true);
-    } else {
-      video.addEventListener("canplaythrough", handleCanPlay);
-    }
-
-    return () => {
-      video.removeEventListener("canplaythrough", handleCanPlay);
-    };
-  }, []);
-
   return (
-    <>
-      {!isVideoLoaded && <LoadingSpinner />}
-      
-      <section className="relative h-screen w-full overflow-hidden">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/hero-video.webm" type="video/webm" />
-        </video>
+    <section className="relative h-screen w-full overflow-hidden">
+      <Image
+        src="/images/gallery/dream-prod.png"
+        alt="Dream Chaser Productions"
+        fill
+        priority
+        className="object-cover"
+      />
 
       <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/80" />
 
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-        <motion.h1
+        {/* <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -69,9 +40,9 @@ export default function Hero() {
           >
             To Spotlight.
           </motion.span>
-        </motion.h1>
+        </motion.h1> */}
 
-        <motion.p
+        {/* <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.5 }}
@@ -80,7 +51,7 @@ export default function Hero() {
           <span className="inline-block mx-2">Actor.</span>
           <span className="inline-block mx-2">Writer.</span>
           <span className="inline-block mx-2">Producer.</span>
-        </motion.p>
+        </motion.p> */}
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -124,6 +95,5 @@ export default function Hero() {
         <div className="absolute bottom-1 right-1 w-24 h-24 border-b-2 border-r-2 border-accent/60" />
       </div>
     </section>
-    </>
   );
 }
